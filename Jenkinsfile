@@ -1,18 +1,18 @@
 pipeline {
   agent any
   stages {
-	stage("Checkout") {
+	stage("Git Checkout") {
       steps {
-        sh 'git clone https://github.com/Poojitha2022/nodeapp_test.git'
+        sh 'git clone https://github.com/Poojitha2022/sceg-k8.git'
       }
 	}
-    stage("Build Image") {
+    stage("Building Docker Image") {
       steps {     
 	sh 'whoami'      
         sh 'docker build -t poojitha2022/nodeapp_test .'
       }
     }
-    stage("pushtoHub") { 
+    stage("pushing to DockerHub") { 
         steps{
            withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
              sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
